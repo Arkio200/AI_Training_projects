@@ -1,0 +1,5 @@
+Alice: 90 (A)
+Bob: 75 (C)
+Charlie: 82 (B)
+Dana: 68 (D)
+Eli: 95 (A)
