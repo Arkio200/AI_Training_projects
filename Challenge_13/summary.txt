@@ -1,0 +1,10 @@
+Invalid grade for Charlie, skipped.
+Average grade: 82.0
+Highest: Eli (95)
+Lowest: Dana (68)
+Letter grade counts:
+A: 2
+B: 0
+C: 1
+D: 1
+F: 0
