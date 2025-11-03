@@ -1,0 +1,12 @@
+Invalid grade for Charlie, skipped.
+Invalid grade for Finn, skipped.
+Average grade: 82.8
+Highest: Eli (100)
+Lowest: George (64)
+Letter grade counts:
+A: 2
+B: 1
+C: 1
+D: 1
+F: 0
+Name of csv file: 
