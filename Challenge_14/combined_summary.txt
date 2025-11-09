@@ -1,0 +1,27 @@
+Enter CSV file names: Processing file: grades_classA.csv
+Invalid grade for Charlie, skipped.
+Invalid grade for Finn, skipped.
+Invalid grade for Hannah, skipped.
+Invalid grade for Ian, skipped.
+Processing file: grades_classB.csv
+Invalid grade for Nina, skipped.
+Invalid grade for Quinn, skipped.
+Invalid grade for Steve, skipped.
+Processing file: grades_classB.csv
+Invalid grade for Nina, skipped.
+Invalid grade for Quinn, skipped.
+Invalid grade for Steve, skipped.
+
+classA Average: 83.7
+classB Average: 73.2
+classB Average: 73.2
+Overall Average: 76.7
+Highest Overall: Eli (100)
+Lowest Overall: Rachel (55)
+
+Letter grade counts:
+A: 4
+B: 4
+C: 5
+D: 3
+F: 2
