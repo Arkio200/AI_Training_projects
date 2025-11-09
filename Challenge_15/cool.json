@@ -1,0 +1,60 @@
+{
+  "History": [
+    {
+      "Name": "Frank",
+      "Grade": 58
+    },
+    {
+      "Name": "Grace",
+      "Grade": 77
+    },
+    {
+      "Name": "Helen",
+      "Grade": 91
+    },
+    {
+      "Name": "Jack",
+      "Grade": 69
+    }
+  ],
+  "Math": [
+    {
+      "Name": "Alice",
+      "Grade": 95
+    },
+    {
+      "Name": "Bob",
+      "Grade": 82
+    },
+    {
+      "Name": "Charlie",
+      "Grade": 67
+    },
+    {
+      "Name": "Diana",
+      "Grade": 74
+    },
+    {
+      "Name": "Evan",
+      "Grade": 89
+    }
+  ],
+  "Science": [
+    {
+      "Name": "Kate",
+      "Grade": 88
+    },
+    {
+      "Name": "Mia",
+      "Grade": 73
+    },
+    {
+      "Name": "Noah",
+      "Grade": 66
+    },
+    {
+      "Name": "Olivia",
+      "Grade": 80
+    }
+  ]
+}

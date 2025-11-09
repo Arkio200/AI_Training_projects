@@ -1,0 +1,21 @@
+JSON file names: 
+processing file: grades_history.json
+Invalid data for Ian. They will be skipped
+processing file: grades_math.json
+processing file: grades_science.json
+Invalid data for Leo. They will be skipped
+
+History Average: 73.8
+Math Average: 81.4
+Science Average: 76.8
+Overall Average: 77.6
+Highest Overall: Alice (95)
+Lowest Overall: Frank (58)
+
+Letter grade counts:
+A: 2
+B: 4
+C: 3
+D: 3
+F: 1
+Would you like to save data to another JSON file?(y/n) 

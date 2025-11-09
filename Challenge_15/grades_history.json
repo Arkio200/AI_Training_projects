@@ -1,0 +1,25 @@
+{
+    "Class": "History",
+    "Students": [
+        {
+            "Name": "Frank",
+            "Grade": 58
+        },
+        {
+            "Name": "Grace",
+            "Grade": 77
+        },
+        {
+            "Name": "Helen",
+            "Grade": 91
+        },
+        {
+            "Name": "Ian",
+            "Grade": 1001
+        },
+        {
+            "Name": "Jack",
+            "Grade": 69
+        }
+    ]
+}
