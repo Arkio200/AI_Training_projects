@@ -1,6 +1,9 @@
 import sys
 import json
-from io import StringIO
+from contextlib import redirect_stdout
+from statistics import mode, median
+import numpy as np
+import matplotlib.pyplot as plt
 
 def main() -> None:
     user_input = input("JSON file names: ").split(sep=", ")
@@ -14,29 +17,60 @@ def main() -> None:
 
     individual_class_grades = get_individual_class_grades(validated_data)
 
-    averages = get_individual_class_average(individual_class_grades)
-
     highest_score, lowest_score, highest_name, lowest_name = get_highest_lowest_name_plus_grade(overall_grades, validated_data)
 
-    letter_grade_list = get_letter_grade(overall_grades)
+    letter_grades = get_letter_grades(overall_grades)
 
-    print("")
+    print_divider("Class Statistics")
+    for c in individual_class_grades:
+        c_average = get_average(individual_class_grades.get(c))
+        c_median = median(individual_class_grades.get(c))
+        c_mode = mode(individual_class_grades.get(c))
+        c_range = get_range(individual_class_grades.get(c))
+        print(f"{c} Average: {c_average}")
+        print(f"{c} Median: {c_median}")
+        print(f"{c} Mode: {c_mode}")
+        print(f"{c} Range: {c_range}")
+        print("")
 
-    for key in averages:
-        print(f"{key} Average: {averages.get(key)}")
-
-    print(f"Overall Average: {average(overall_grades)}")
+    print_divider("Overall Statistics")
+    print(f"Overall Average: {get_average(overall_grades)}")
+    print(f"Overall Median: {median(overall_grades)}")
+    print(f"Overall Mode: {mode(overall_grades)}")
+    print(f"Overall Range: {get_range(overall_grades)}")
+    print_divider()
 
     print(f"Highest Overall: {highest_name} ({highest_score})")
     print(f"Lowest Overall: {lowest_name} ({lowest_score})")
 
-    print("")
+    print_divider()
 
     print("Letter grade counts:")
-    print_letter_grade_counts(letter_grade_list)
+    print_letter_grade_counts(letter_grades)
 
-    save_json_prompt(validated_data)
+    summary_data = {"ClassStatistics": {},
+                    "OverallStatistics": {"Average": get_average(overall_grades), "Mediane": median(overall_grades),
+                                           "Mode": mode(overall_grades), "Range": get_range(overall_grades)},
+                    "Highest Overall": f"{highest_name} ({highest_score})",
+                    "Lowest Overall": f"{lowest_name} ({lowest_score})",
+                    "Letter Grade Counts": {letter: get_letter_grades(overall_grades).count(letter) for letter in "ABCDF"}
+                    }
+    dictionary_list = []
+    for c in individual_class_grades:
+        dictionary = {c : {"Average": c_average, "Median": c_median, "Mode": c_mode, "Range": c_range}}
+        dictionary_list.append(dictionary)
+    summary_data.update({"ClassStatistics": dictionary_list})
 
+    generate_bar_chart(individual_class_grades)
+    save_json_prompt(summary_data)
+
+
+
+def print_divider(label=None):
+    if label:
+        print(f"\n{'-' * 10} {label.upper()} {'-' * 10}")
+    else:
+        print("-" * 40)
 
 def get_file_names(user_input) -> list:
     file_names = []
@@ -58,12 +92,14 @@ def data_validation(file_names) -> dict:
                 class_name = d["Class"]
                 student_grade_list = []
                 for student in d["Students"]:
-                    name = student["Name"]
-                    if not student["Grade"]:
-                        print(f"{name} doesn't have a grade. They will be skipped.")
+                    student_name = student["Name"]
+                    student_grade = student["Grade"]
+                    if not student_grade:
+                        print(f"{student_name} doesn't have a grade. They will be skipped.")
                         continue
-                    elif not student["Grade"] in range(0, 100) or not str(student["Grade"]).isnumeric():
-                        print(f"Invalid data for {name}. They will be skipped")
+                    elif not student["Grade"] in range(0, 100) or not isinstance(student_grade, int):
+                        print(f"Invalid data for {student_name}. They will be skipped")
+                        continue
                     else:
                         student_grade_list.append(student)
                         class_student_grade_dict.update({class_name: student_grade_list})
@@ -90,15 +126,13 @@ def get_individual_class_grades(data) -> dict:
         class_plus_grades.update({c: grades})
     return class_plus_grades
 
-def average(value_list):
-    return f"{sum(value_list) / len(value_list):.1f}"
+def get_average(int_list) -> float:
+    return f"{sum(int_list) / len(int_list):.1f}"
 
-def get_individual_class_average(individual_class_grades) -> list:
-    averages = {}
-    for c in individual_class_grades:
-        avr = average(individual_class_grades.get(c))
-        averages.update({c: avr})
-    return averages
+def get_range(int_list) -> int:
+    highest_grade = max(int_list)
+    lowest_grade = min(int_list)
+    return highest_grade - lowest_grade
 
 def get_highest_lowest_name_plus_grade(grade_list, data):
     highest_score = max(grade_list)
@@ -115,8 +149,7 @@ def get_highest_lowest_name_plus_grade(grade_list, data):
                 lowest_score_name = name
     return highest_score, lowest_score, str(highest_score_name).strip("[']"), str(lowest_score_name).strip("[']")
 
-
-def get_letter_grade(value_list):
+def get_letter_grades(value_list):
     letter_grade_list = []
     for grade in value_list:
         if 90 <= grade <= 100:
@@ -140,16 +173,10 @@ def print_letter_grade_counts(letter_grade_list):
         print(f"{letter}: {count}")
 
 def save_summary():
-    buffer = StringIO()
-    original_stdout = sys.stdout
-    sys.stdout = buffer
-    try:
-        main()
-    finally:
-        sys.stdout = original_stdout
     with open("json_summary.txt", "w") as f:
-        f.write(buffer.getvalue())
-
+        with redirect_stdout(f):
+            main()
+        
 def save_json_prompt(data):
     while True:
         yes_no_question = input("Would you like to save data to another JSON file?(y/n) ").lower()
@@ -171,7 +198,22 @@ def save_json_prompt(data):
             print("Data wasn't saved to a JSON file")
         break
 
-
+def generate_bar_chart(individual_class_grades):
+    class_names = []
+    average_grades = []
+    class_array = np.array(class_names)
+    grades_array = np.array(average_grades)
+    for c in individual_class_grades:
+        class_names.append(c)
+        avr = get_average(individual_class_grades.get(c))
+        average_grades.append(avr)
+    plt.bar(class_array, grades_array, )
+    plt.title("Class Average Grades")
+    plt.xlabel("Classes")
+    plt.ylabel("Grades")
+    plt.savefig("Class_average.png", dpi=300, bbox_inches="tight")
+    plt.show()
+    
 if __name__ == "__main__":
     main()
 
@@ -184,11 +226,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("The output wasn't saved.")
         sys.exit()
-
-
-
-
-
-
-
-

@@ -1,0 +1,25 @@
+{
+    "Class": "Math",
+    "Students": [
+        {
+            "Name": "Alice",
+            "Grade": 95
+        },
+        {
+            "Name": "Bob",
+            "Grade": 82
+        },
+        {
+            "Name": "Charlie",
+            "Grade": 67
+        },
+        {
+            "Name": "Diana",
+            "Grade": 74
+        },
+        {
+            "Name": "Evan",
+            "Grade": 89
+        }
+    ]
+}

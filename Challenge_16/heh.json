@@ -1,0 +1,43 @@
+{
+  "ClassStatistics": [
+    {
+      "History": {
+        "Average": "76.8",
+        "Median": 76.5,
+        "Mode": 88,
+        "Range": 22
+      }
+    },
+    {
+      "Math": {
+        "Average": "76.8",
+        "Median": 76.5,
+        "Mode": 88,
+        "Range": 22
+      }
+    },
+    {
+      "Science": {
+        "Average": "76.8",
+        "Median": 76.5,
+        "Mode": 88,
+        "Range": 22
+      }
+    }
+  ],
+  "OverallStatistics": {
+    "Average": "77.6",
+    "Mediane": 77,
+    "Mode": 58,
+    "Range": 37
+  },
+  "Highest Overall": "Alice (95)",
+  "Lowest Overall": "Frank (58)",
+  "Letter Grade Counts": {
+    "A": 2,
+    "B": 4,
+    "C": 3,
+    "D": 3,
+    "F": 1
+  }
+}
